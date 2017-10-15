@@ -6,8 +6,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>crud_rest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-<!-- 	<packaging>war</packaging> -->
+	<!-- <packaging>jar</packaging> -->
+	<packaging>war</packaging>
 
 	<name>crud_rest</name>
 	<description>Implementation of CRUD operations on Document and DocumentItem objects</description>
@@ -33,6 +33,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- <dependency> -->
@@ -78,10 +90,10 @@
 	<build>
 		<finalName>crud_rest</finalName>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+			<!-- <plugin> -->
+			<!-- <groupId>org.springframework.boot</groupId> -->
+			<!-- <artifactId>spring-boot-maven-plugin</artifactId> -->
+			<!-- </plugin> -->
 		</plugins>
 	</build>
 
