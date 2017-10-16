@@ -34,7 +34,7 @@ public class Document {
 	@Column(name="code")
 	private String code;
 
-	@CreationTimestamp
+	// @CreationTimestamp
 	@Column(name="date")
 	private Date date;
 

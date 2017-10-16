@@ -11,13 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rs.mk.model.Document;
 import rs.mk.model.DocumentItem;
+import rs.mk.repository.DocumentItemRepository;
 import rs.mk.repository.DocumentRepository;
 
 @Service
 public class DocumentService {
-	
+
 	@Autowired
 	private DocumentRepository documentRepository;
+
+	@Autowired
+	private DocumentItemRepository documentItemRepository;
 
 	@Transactional(readOnly=true)
 	public List<Document> loadAll()
@@ -25,34 +29,35 @@ public class DocumentService {
 		List<Document> res = documentRepository.findAll();
 		return res;
 	}
-	
+
 	@Transactional
 	public Document create(Document Document)
 	{
 		Document doc = documentRepository.save(Document);
 		return doc;
 	}
-	
+
 	@Transactional
 	public Document update(Document Document)
 	{
 		Document doc = documentRepository.save(Document);
 		return doc;
 	}
-	
+
 	@Transactional
 	public void delete(Long id)
 	{
 		documentRepository.delete(id);
 	}
-	
+
 	@Transactional(readOnly=true)
 	public Document findById(Long id)
 	{
 		Document doc = documentRepository.findOne(id);
+		System.out.println(doc.getDocumentItems().size());
 		return doc;
 	}
-	
+
 	@Transactional(readOnly=true)
 	public boolean exists(Long id)
 	{
@@ -62,15 +67,20 @@ public class DocumentService {
 
 	@Transactional
 	public Document addItem(Long id, DocumentItem documentItem) {
+//		Document doc = documentRepository.findOne(id);
+//		if(doc.getDocumentItems() == null) {
+//			doc.setDocumentItems(new ArrayList<DocumentItem>());
+//		}
+//		doc.getDocumentItems().size();
+//		documentItem.setDocument(doc);
+//		doc.getDocumentItems().add(documentItem);
+//		documentRepository.save(doc);
+//		doc = documentRepository.findOne(id);
 		Document doc = documentRepository.findOne(id);
-		if(doc.getDocumentItems() == null) {
-			doc.setDocumentItems(new ArrayList<DocumentItem>());
-		}
-		doc.getDocumentItems().size();
 		documentItem.setDocument(doc);
-		doc.getDocumentItems().add(documentItem);
-		documentRepository.save(doc);
+		documentItemRepository.save(documentItem);
 		doc = documentRepository.findOne(id);
+		doc.getDocumentItems().size();
 		return doc;
 	}
 	
@@ -87,29 +97,34 @@ public class DocumentService {
 				}
 			}
 			documentRepository.save(doc);
-			doc = documentRepository.findOne(id);
 		}
+		doc = documentRepository.findOne(id);
+		doc.getDocumentItems().size();
 		return doc;
 	}
-	
+
 	@Transactional
 	public Document updateItem(Long id, DocumentItem documentItem) {
+//		Document doc = documentRepository.findOne(id);
+//		if(doc.getDocumentItems() != null) {
+//			doc.getDocumentItems().size();
+//			for (int i = 0; i < doc.getDocumentItems().size(); i++) {
+//				DocumentItem di = doc.getDocumentItems().get(i);
+//				if(documentItem.getId().longValue() == di.getId().longValue()) {
+//					documentItem.setDocument(doc);
+//					di.setDocument(null);
+//					doc.getDocumentItems().set(i, documentItem);
+//				}
+//			}
+//			System.out.println("updateItem " + doc.getDocumentItems().size());
+//			documentRepository.save(doc);
+//		}
 		Document doc = documentRepository.findOne(id);
-		if(doc.getDocumentItems() != null) {
-			doc.getDocumentItems().size();
-			for (int i = 0; i < doc.getDocumentItems().size(); i++) {
-				DocumentItem di = doc.getDocumentItems().get(i);
-				if(documentItem.getId().longValue() == di.getId().longValue()) {
-					documentItem.setDocument(doc);
-					di.setDocument(null);
-					doc.getDocumentItems().set(i, documentItem);
-				}
-			}
-			System.out.println("updateItem " + doc.getDocumentItems().size());
-			documentRepository.save(doc);
-			doc = documentRepository.findOne(id);
-		}
+		documentItem.setDocument(doc);
+		documentItemRepository.save(documentItem);
+		doc = documentRepository.findOne(id);
+		doc.getDocumentItems().size();
 		return doc;
 	}
-	
+
 }

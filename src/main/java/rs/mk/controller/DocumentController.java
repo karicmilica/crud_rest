@@ -70,7 +70,6 @@ public class DocumentController {
 			throw new CustomNotFoundException("NOT FOUND");
 		}
 		Document doc = this.documentService.findById(id);
-		System.out.println(doc.getDocumentItems().size());
 		return new ResponseEntity<>(new ResponseWrapper(doc), HttpStatus.OK);
 	}
 	
@@ -92,8 +91,8 @@ public class DocumentController {
 		return new ResponseEntity<>(new ResponseWrapper(doc), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/documents/{id}/updateItem", method = RequestMethod.PUT)
-	ResponseEntity<?> updateItem(@PathVariable Long id, @RequestBody DocumentItem documentItem) throws Exception {
+	@RequestMapping(value = "/documents/{id}/updateItem/{docItemId}", method = RequestMethod.PUT)
+	ResponseEntity<?> updateItem(@PathVariable Long id, @PathVariable Long docItemId, @RequestBody DocumentItem documentItem) throws Exception {
 		if (id == null || !documentService.exists(id)) {
 			throw new CustomNotFoundException("NOT FOUND");
 		}
